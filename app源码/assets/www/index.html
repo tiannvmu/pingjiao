@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>杏林一键评教</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
+
+        /* ========== 首页 ========== */
+        .首页 { display: flex; flex-direction: column; align-items: center; padding: 30px 20px; min-height: 100vh; }
+        .头像 { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-bottom: 15px; object-fit: cover; }
+        .制作者标签 { font-size: 14px; color: #888; margin-bottom: 10px; }
+        .标题 { font-size: 26px; font-weight: bold; color: #1a73e8; margin-bottom: 5px; }
+        .副标题 { font-size: 13px; color: #5f6368; margin-bottom: 20px; }
+        .免责声明 { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); width: 100%; max-width: 500px; }
+        .免责声明 h3 { font-size: 16px; color: #d93025; margin-bottom: 10px; }
+        .免责声明 p { font-size: 13px; color: #666; line-height: 1.8; margin-bottom: 5px; }
+        .确认按钮 { background: #1a73e8; color: #fff; border: none; padding: 14px 40px; font-size: 16px; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
+        .确认按钮:active { transform: scale(0.95); }
+
+        /* ========== 登录页 ========== */
+        .登录页 { display: none; flex-direction: column; align-items: center; padding: 30px 20px; min-height: 100vh; }
+        .登录页 h2 { font-size: 22px; color: #333; margin-bottom: 5px; }
+        .登录副标题 { font-size: 12px; color: #888; margin-bottom: 20px; }
+
+        /* 技术特性卡片 */
+        .技术卡片 { background: #fff; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); width: 100%; max-width: 500px; }
+        .技术卡片 h3 { font-size: 14px; color: #1a73e8; margin-bottom: 12px; border-bottom: 1px solid #e8eaed; padding-bottom: 8px; }
+        .技术项 { display: flex; align-items: flex-start; margin-bottom: 10px; }
+        .技术项:last-child { margin-bottom: 0; }
+        .技术图标 { font-size: 14px; margin-right: 8px; flex-shrink: 0; margin-top: 2px; }
+        .技术内容 { flex: 1; }
+        .技术名称 { font-size: 13px; font-weight: 600; color: #202124; }
+        .技术描述 { font-size: 11px; color: #80868b; line-height: 1.5; margin-top: 2px; }
+
+        .输入框组 { width: 100%; max-width: 500px; margin-bottom: 12px; }
+        .输入框组 label { display: block; font-size: 14px; color: #666; margin-bottom: 5px; }
+        .输入框组 input { width: 100%; padding: 12px 16px; font-size: 16px; border: 2px solid #e0e0e0; border-radius: 8px; outline: none; }
+        .输入框组 input:focus { border-color: #1a73e8; }
+        .加载中 { display: none; text-align: center; padding: 20px; color: #666; }
+        .旋转动画 { display: inline-block; width: 24px; height: 24px; border: 3px solid #e0e0e0; border-top-color: #1a73e8; border-radius: 50%; animation: 旋转 0.8s linear infinite; }
+        @keyframes 旋转 { to { transform: rotate(360deg); } }
+        .底部标识 { font-size: 11px; color: #bbb; margin-top: 15px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<!-- ====== 首页 ====== -->
+<div class="首页" id="首页">
+    <img src="../avatar.jpg" class="头像" alt="头像">
+    <p class="制作者标签">✨ 天女目瑛 制作 ✨</p>
+    <h1 class="标题">杏林一键评教</h1>
+    <p class="副标题">基于深度学习的教务系统智能评教终端</p>
+    <div class="免责声明">
+        <h3>⚠️ 免责声明</h3>
+        <p>1. 本程序仅供学习交流和技术研究使用。</p>
+        <p>2. 本程序不收集、不存储、不上传任何用户信息。</p>
+        <p>3. 所有操作均由用户本人账号执行，用户需对自己的行为负责。</p>
+        <p>4. 请于下载后24小时内删除本程序。</p>
+        <p>5. 使用本程序产生的一切后果由使用者自行承担。</p>
+        <p>6. 如本程序侵犯了您的权益，请联系制作者删除。</p>
+    </div>
+    <button class="确认按钮" onclick="进入登录页()">我已阅读，开始使用</button>
+</div>
+
+<!-- ====== 登录页 ====== -->
+<div class="登录页" id="登录页">
+    <h2>🔐 登录教务系统</h2>
+    <p class="登录副标题">智能评教引擎已就绪</p>
+
+    <div class="输入框组">
+        <label>学号</label>
+        <input type="text" id="学号输入" placeholder="请输入学号">
+    </div>
+    <div class="输入框组">
+        <label>密码</label>
+        <input type="password" id="密码输入" placeholder="请输入密码">
+    </div>
+    <button class="确认按钮" id="登录按钮" onclick="执行登录()">登录</button>
+    <div class="加载中" id="登录加载中">
+        <div class="旋转动画"></div>
+        <p style="margin-top:10px;">正在登录，请稍候...</p>
+    </div>
+
+    <!-- 技术特性展示 -->
+    <div class="技术卡片">
+        <h3>🚀 核心技术栈</h3>
+        <div class="技术项">
+            <span class="技术图标">◇</span>
+            <div class="技术内容">
+                <div class="技术名称">自研向量卷曲验证码破解引擎</div>
+                <div class="技术描述">采用前端AST抽象语法树分析，实现验证码零感知自动求解</div>
+            </div>
+        </div>
+        <div class="技术项">
+            <span class="技术图标">◇</span>
+            <div class="技术内容">
+                <div class="技术名称">端到端非对称加密安全通信协议</div>
+                <div class="技术描述">RSA-1024公钥加密传输，保障用户凭证零泄漏</div>
+            </div>
+        </div>
+        <div class="技术项">
+            <span class="技术图标">◇</span>
+            <div class="技术内容">
+                <div class="技术名称">智能DOM元素定位与自动化交互系统</div>
+                <div class="技术描述">基于CSS Selector的精准元素捕获，毫秒级表单填充</div>
+            </div>
+        </div>
+        <div class="技术项">
+            <span class="技术图标">◇</span>
+            <div class="技术内容">
+                <div class="技术名称">多课程并发评教调度算法</div>
+                <div class="技术描述">自适应状态机驱动，支持断点续评与异常自恢复</div>
+            </div>
+        </div>
+        <div class="技术项">
+            <span class="技术图标">◇</span>
+            <div class="技术内容">
+                <div class="技术名称">分布式状态持久化容灾机制</div>
+                <div class="技术描述">LocalStorage双写校验，页面刷新零进度丢失</div>
+            </div>
+        </div>
+        <div class="技术项">
+            <span class="技术图标">◇</span>
+            <div class="技术内容">
+                <div class="技术名称">轻量级跨平台渲染引擎</div>
+                <div class="技术描述">原生WebView深度定制，体积仅52KB</div>
+            </div>
+        </div>
+    </div>
+
+    <p class="底部标识">Powered by 天女目瑛™ 智能评教实验室</p>
+</div>
+
+<script>
+/**
+ * 页面加载时自动填充保存的学号密码（记住密码功能）
+ */
+window.onload = function() {
+    try {
+        var 保存学号 = AndroidBridge.获取学号();
+        var 保存密码 = AndroidBridge.获取密码();
+        if (保存学号) document.getElementById("学号输入").value = 保存学号;
+        if (保存密码) document.getElementById("密码输入").value = 保存密码;
+    } catch(e) {}
+};
+
+function 进入登录页() {
+    document.getElementById("首页").style.display = "none";
+    document.getElementById("登录页").style.display = "flex";
+}
+
+function 执行登录() {
+    var 学号 = document.getElementById("学号输入").value.trim();
+    var 密码 = document.getElementById("密码输入").value.trim();
+    if (!学号) { alert("请输入学号！"); return; }
+    if (!密码) { alert("请输入密码！"); return; }
+    document.getElementById("登录按钮").disabled = true;
+    document.getElementById("登录加载中").style.display = "block";
+    AndroidBridge.开始登录(学号, 密码);
+}
+</script>
+</body>
+</html>
